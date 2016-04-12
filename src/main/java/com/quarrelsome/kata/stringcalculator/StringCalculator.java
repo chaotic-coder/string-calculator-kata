@@ -1,5 +1,6 @@
 package com.quarrelsome.kata.stringcalculator;
 
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,9 +28,9 @@ public class StringCalculator {
         }
     }
 
-    public int add(String value) throws NegativeValueException {
+    public int add(String text) throws NegativeValueException {
 
-        CalculatorInput calculatorInput = parseInput(value);
+        CalculatorInput calculatorInput = parseText(text);
         String numbers = calculatorInput.getNumbers();
         String delimiter = calculatorInput.getDelimiter();
 
@@ -37,21 +38,20 @@ public class StringCalculator {
         if (!numbers.isEmpty()) {
             checkForNegatives(calculatorInput);
 
-            for (String number : numbers.split(delimiter)) {
-                int intValue = Integer.parseInt(number);
-                result += (intValue < 1001 ? intValue : 0);
-            }
+            Collection<String> valueList = Arrays.asList(numbers.split(delimiter));
+            result = valueList.stream().map(x->Integer.parseInt(x)).
+                reduce(0, (a, b) -> a + (b<1001 ? b: 0));
         }
 
         return result;
     }
 
-    private CalculatorInput parseInput(String value) {
+    private CalculatorInput parseText(String text) {
         String delimiter = DEFAULT_DELIMITERS_REGEX;
-        String numbers = value;
+        String numbers = text;
 
         Pattern userDefinedDelimiterPattern = Pattern.compile(USER_DEFINED_DELIMITER_REGEX);
-        Matcher matcher  = userDefinedDelimiterPattern.matcher(value);
+        Matcher matcher  = userDefinedDelimiterPattern.matcher(text);
         if (matcher.matches()) {
             delimiter = matcher.group(1);
             numbers = matcher.group(2);
