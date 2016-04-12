@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 public class StringCalculator {
 
     private static final String USER_DEFINED_DELIMITER_REGEX = "//\\[(.+)\\]\n(.+)";
-    private final String DEFAULT_DELIMITERS_REGEX = "[,\n]";
+    private static final String DEFAULT_DELIMITERS_REGEX = "[,\n]";
 
     private class CalculatorInput {
         private String delimiter;
@@ -67,8 +67,7 @@ public class StringCalculator {
 
         String[] splitNumbers = calculatorInput.getNumbers().split(calculatorInput.getDelimiter());
         for (String number : splitNumbers) {
-            int intValue = Integer.parseInt(number);
-            if (intValue < 0) {
+            if (Integer.parseInt(number) < 0) {
                 if (negatives.length() != 0) {
                     negatives.append(", ");
                 }
