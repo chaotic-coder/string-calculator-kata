@@ -45,45 +45,35 @@ public class StringCalculatorTest {
 
     @Test
     public void shouldAddUnknownAmountOfNumbers() throws NegativeValueException {
-        String numbers = "3,12,0,10";
-
-        int result = stringCalculator.add(numbers);
+        int result = stringCalculator.add("3,12,0,10");
 
         assertEquals(25, result);
     }
 
     @Test
     public void shouldAcceptCommaOrNewLineAsDelimiter() throws NegativeValueException {
-        String numbers = "3\n12,5,10";
-
-        int result = stringCalculator.add(numbers);
+        int result = stringCalculator.add("3\n12,5,10");
 
         assertEquals(30, result);
     }
 
     @Test
     public void shouldAcceptNewLineAsDelimiter() throws NegativeValueException {
-        String numbers = "3\n12\n5\n10";
-
-        int result = stringCalculator.add(numbers);
+        int result = stringCalculator.add("3\n12\n5\n10");
 
         assertEquals(30, result);
     }
 
     @Test
     public void shouldAcceptColonAsUserDefinedDelimiter() throws NegativeValueException {
-        String numbers = "//[:]\n13:12:5:10";
-
-        int result = stringCalculator.add(numbers);
+        int result = stringCalculator.add("//[:]\n13:12:5:10");
 
         assertEquals(40, result);
     }
 
     @Test
     public void shouldAcceptStringAsUserDefinedDelimiter() throws NegativeValueException {
-        String numbers = "//[delim]\n13delim12delim5delim10";
-
-        int result = stringCalculator.add(numbers);
+        int result = stringCalculator.add("//[delim]\n13delim12delim5delim10");
 
         assertEquals(40, result);
     }
@@ -110,36 +100,28 @@ public class StringCalculatorTest {
 
     @Test
     public void shouldIgnoreNumbersGreaterThan1000() throws NegativeValueException {
-        String numbers = "3,12,1001,0,10";
-
-        int result = stringCalculator.add(numbers);
+        int result = stringCalculator.add("3,12,1001,0,10");
 
         assertEquals(25, result);
     }
 
     @Test
     public void shouldNotIgnore1000() throws NegativeValueException {
-        String numbers = "3,12,1000,0,10";
-
-        int result = stringCalculator.add(numbers);
+        int result = stringCalculator.add("3,12,1000,0,10");
 
         assertEquals(1025, result);
     }
 
     @Test
     public void shouldIgnoreSingle1001() throws NegativeValueException {
-        String numbers = "1001";
-
-        int result = stringCalculator.add(numbers);
+        int result = stringCalculator.add("1001");
 
         assertEquals(0, result);
     }
 
     @Test
     public void shouldIgnoreNumbersGreaterThan1000WhenUsingUserDefinedDelimiter() throws NegativeValueException {
-        String numbers = "//[:]\n13:12:1001:5:10";
-
-        int result = stringCalculator.add(numbers);
+        int result = stringCalculator.add("//[:]\n13:12:1001:5:10");
 
         assertEquals(40, result);
     }

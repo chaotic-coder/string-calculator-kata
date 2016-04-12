@@ -1,6 +1,7 @@
 package com.quarrelsome.kata.stringcalculator;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -50,8 +51,9 @@ public class StringCalculator {
         String delimiter = DEFAULT_DELIMITERS_REGEX;
         String numbers = text;
 
-        Pattern userDefinedDelimiterPattern = Pattern.compile(USER_DEFINED_DELIMITER_REGEX);
-        Matcher matcher  = userDefinedDelimiterPattern.matcher(text);
+        Matcher matcher  = Pattern.compile(USER_DEFINED_DELIMITER_REGEX).
+            matcher(text);
+
         if (matcher.matches()) {
             delimiter = matcher.group(1);
             numbers = matcher.group(2);
@@ -78,6 +80,6 @@ public class StringCalculator {
         if (!negatives.toString().isEmpty()) {
             throw new NegativeValueException("Negatives not allowed : " + negatives.toString());
         }
-
     }
+
 }
