@@ -12,7 +12,7 @@ public class StringCalculator {
         if (!inputText.isEmptyNumbersText()) {
             checkForNegatives(inputText);
 
-            result = inputText.getNumbersStream().map(x->Integer.parseInt(x)).
+            result = inputText.createNumbersStream().map(x->Integer.parseInt(x)).
                 reduce(0, (a, b) -> a + (b<1001 ? b: 0));
         }
 
@@ -20,7 +20,7 @@ public class StringCalculator {
     }
 
     private void checkForNegatives(InputText inputText) throws NegativeValueException {
-        String negatives = inputText.getNumbersStream().
+        String negatives = inputText.createNumbersStream().
               filter(x -> Integer.parseInt(x) < 0).
               collect(Collectors.joining(", "));
 
