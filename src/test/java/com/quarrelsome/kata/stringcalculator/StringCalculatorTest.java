@@ -125,4 +125,11 @@ public class StringCalculatorTest {
 
         assertEquals(40, result);
     }
+
+    @Test
+    public void shouldAcceptMultipleUserDefinedDelimiters() throws NegativeValueException {
+        int result = stringCalculator.add("//[:][;]\n13:12;5:10");
+
+        assertEquals(40, result);
+    }
 }
