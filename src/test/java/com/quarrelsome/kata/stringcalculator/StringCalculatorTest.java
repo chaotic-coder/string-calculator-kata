@@ -1,10 +1,13 @@
 package com.quarrelsome.kata.stringcalculator;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
+
 
 public class StringCalculatorTest {
 
@@ -17,65 +20,47 @@ public class StringCalculatorTest {
 
     @Test()
     public void shouldReturnZeroForEmptyString() throws NegativeValueException {
-        int result = stringCalculator.add("");
-
-        assertEquals(0, result);
+        assertThat(stringCalculator.add(""), is(equalTo(0)));
     }
 
     @Test
     public void shouldParseNumberOne() throws NegativeValueException {
-        int result = stringCalculator.add("1");
-
-        assertEquals(1, result);
+        assertThat(stringCalculator.add("1"), is(equalTo(1)));
     }
 
     @Test
     public void shouldParseNumberNinetyNine() throws NegativeValueException {
-        int result = stringCalculator.add("99");
-
-        assertEquals(99, result);
+        assertThat(stringCalculator.add("99"), equalTo(99));
     }
 
     @Test
     public void shouldAddTwoNumbers() throws NegativeValueException {
-        int result = stringCalculator.add("5,32");
-
-        assertEquals(37, result);
+        assertThat(stringCalculator.add("5,32"), equalTo(37));
     }
 
     @Test
     public void shouldAddUnknownAmountOfNumbers() throws NegativeValueException {
-        int result = stringCalculator.add("3,12,0,10");
-
-        assertEquals(25, result);
+        assertThat(stringCalculator.add("3,12,0,10"), equalTo(25));
     }
 
     @Test
     public void shouldAcceptCommaOrNewLineAsDelimiter() throws NegativeValueException {
-        int result = stringCalculator.add("3\n12,5,10");
-
-        assertEquals(30, result);
+        assertThat(stringCalculator.add("3\n12,5,10"), is(equalTo(30)));
     }
 
     @Test
     public void shouldAcceptNewLineAsDelimiter() throws NegativeValueException {
-        int result = stringCalculator.add("3\n12\n5\n10");
-
-        assertEquals(30, result);
+        assertThat(stringCalculator.add("3\n12\n5\n10"), is(equalTo(30)));
     }
 
     @Test
     public void shouldAcceptColonAsUserDefinedDelimiter() throws NegativeValueException {
-        int result = stringCalculator.add("//[:]\n13:12:5:10");
-
-        assertEquals(40, result);
+        assertThat(stringCalculator.add("//[:]\n13:12:5:10"), is(equalTo(40)));
     }
 
     @Test
     public void shouldAcceptStringAsUserDefinedDelimiter() throws NegativeValueException {
-        int result = stringCalculator.add("//[delim]\n13delim12delim5delim10");
-
-        assertEquals(40, result);
+        assertThat(stringCalculator.add("//[delim]\n13delim12delim5delim10"), is(equalTo(40)));
     }
 
     @Test
@@ -83,8 +68,9 @@ public class StringCalculatorTest {
         try {
             stringCalculator.add("-1");
             fail("Expected NegativeValueException");
-        } catch (NegativeValueException ex) {
-            assertEquals("Negatives not allowed : -1", ex.getMessage());
+        } catch (Throwable ex) {
+            Assert.assertThat(ex, instanceOf(NegativeValueException.class));
+            assertThat(ex.getMessage(), containsString("Negatives not allowed : -1"));
         }
     }
 
@@ -93,43 +79,34 @@ public class StringCalculatorTest {
         try {
             stringCalculator.add("19,-1,12,-8,15");
             fail("Expected NegativeValueException");
-        } catch (NegativeValueException ex) {
-            assertEquals("Negatives not allowed : -1, -8", ex.getMessage());
+        } catch (Throwable ex) {
+            Assert.assertThat(ex, instanceOf(NegativeValueException.class));
+            assertThat(ex.getMessage(), containsString("Negatives not allowed : -1, -8"));
         }
     }
 
     @Test
     public void shouldIgnoreNumbersGreaterThan1000() throws NegativeValueException {
-        int result = stringCalculator.add("3,12,1001,0,10");
-
-        assertEquals(25, result);
+        assertThat(stringCalculator.add("3,12,1001,0,10"), is(equalTo(25)));
     }
 
     @Test
     public void shouldNotIgnore1000() throws NegativeValueException {
-        int result = stringCalculator.add("3,12,1000,0,10");
-
-        assertEquals(1025, result);
+        assertThat(stringCalculator.add("3,12,1000,0,10"), is(equalTo(1025)));
     }
 
     @Test
     public void shouldIgnoreSingle1001() throws NegativeValueException {
-        int result = stringCalculator.add("1001");
-
-        assertEquals(0, result);
+        assertThat(stringCalculator.add("1001"), is(equalTo(0)));
     }
 
     @Test
     public void shouldIgnoreNumbersGreaterThan1000WhenUsingUserDefinedDelimiter() throws NegativeValueException {
-        int result = stringCalculator.add("//[:]\n13:12:1001:5:10");
-
-        assertEquals(40, result);
+        assertThat(stringCalculator.add("//[:]\n13:12:1001:5:10"), is(equalTo(40)));
     }
 
     @Test
     public void shouldAcceptMultipleUserDefinedDelimiters() throws NegativeValueException {
-        int result = stringCalculator.add("//[:][;]\n13:12;5:10");
-
-        assertEquals(40, result);
+        assertThat(stringCalculator.add("//[:][;]\n13:12;5:10"), is(equalTo(40)));
     }
 }
