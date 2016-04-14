@@ -24,6 +24,16 @@ public class StringCalculatorLoggerTest {
     @InjectMocks
     StringCalculator stringCalculator;
 
+
+    @Test
+    public void shouldNotTryToLogResultWhenLoggerNotSet() throws NegativeValueException {
+        stringCalculator.setLogger(null);
+
+        stringCalculator.add("2,3");
+
+        verify(logger, never()).write("StringCalculator::add result=5");
+    }
+
     @Test
     public void shouldLogAddResult() throws NegativeValueException {
         stringCalculator.add("2,3");
@@ -42,5 +52,19 @@ public class StringCalculatorLoggerTest {
         }
 
         verify(eventListenerService).registerException(any(LoggerException.class));
+    }
+
+    @Test
+    public void shouldNotNotifyEventListenerWhenListetenerIsNotSet() throws NegativeValueException {
+        stringCalculator.setLogListenerService(null);
+        doThrow(new LoggerException()).when(logger).write(anyString());
+
+        try {
+            stringCalculator.add("4,5");
+        } catch (LoggerException ex) {
+
+        }
+
+        verify(eventListenerService, never()).registerException(any(LoggerException.class));
     }
 }
