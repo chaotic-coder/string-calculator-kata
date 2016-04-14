@@ -30,17 +30,17 @@ public class StringCalculatorTest {
 
     @Test
     public void shouldParseNumberNinetyNine() throws NegativeValueException {
-        assertThat(stringCalculator.add("99"), equalTo(99));
+        assertThat(stringCalculator.add("99"), is(equalTo(99)));
     }
 
     @Test
     public void shouldAddTwoNumbers() throws NegativeValueException {
-        assertThat(stringCalculator.add("5,32"), equalTo(37));
+        assertThat(stringCalculator.add("5,32"), is(equalTo(37)));
     }
 
     @Test
     public void shouldAddUnknownAmountOfNumbers() throws NegativeValueException {
-        assertThat(stringCalculator.add("3,12,0,10"), equalTo(25));
+        assertThat(stringCalculator.add("3,12,0,10"), is(equalTo(25)));
     }
 
     @Test
@@ -68,8 +68,7 @@ public class StringCalculatorTest {
         try {
             stringCalculator.add("-1");
             fail("Expected NegativeValueException");
-        } catch (Throwable ex) {
-            Assert.assertThat(ex, instanceOf(NegativeValueException.class));
+        } catch (NegativeValueException ex) {
             assertThat(ex.getMessage(), containsString("Negatives not allowed : -1"));
         }
     }
@@ -79,8 +78,7 @@ public class StringCalculatorTest {
         try {
             stringCalculator.add("19,-1,12,-8,15");
             fail("Expected NegativeValueException");
-        } catch (Throwable ex) {
-            Assert.assertThat(ex, instanceOf(NegativeValueException.class));
+        } catch (NegativeValueException ex) {
             assertThat(ex.getMessage(), containsString("Negatives not allowed : -1, -8"));
         }
     }
