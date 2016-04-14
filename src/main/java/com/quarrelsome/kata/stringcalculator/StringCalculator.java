@@ -1,8 +1,8 @@
 package com.quarrelsome.kata.stringcalculator;
 
-import com.quarrelsome.kata.stringcalculator.log.IEventListenerService;
-import com.quarrelsome.kata.stringcalculator.log.ILogger;
-import com.quarrelsome.kata.stringcalculator.log.LoggerException;
+import com.quarrelsome.kata.stringcalculator.listeners.IEventListenerService;
+import com.quarrelsome.kata.stringcalculator.logger.ILogger;
+import com.quarrelsome.kata.stringcalculator.logger.LoggerException;
 
 import java.util.stream.Collectors;
 
